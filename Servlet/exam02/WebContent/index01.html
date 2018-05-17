@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>설문조사</title>
+</head>
+<body>
+<form action="result">
+<h1>설문조사</h1><br>
+이름 : <input type="text" name="name"><br>
+【질문1】
+영어로 대화할 수 있습니까?<br>
+<input type="radio" name="anser" value="yes" checked="checked">예
+<input type="radio" name="anser" value="soso">모르겠습니다
+<input type="radio" name="anser" value="no">아니오
+<br><br>
+【질문2】
+영어외에 관심있는 언어가 있으면 선택(복수 선택가능)<br>
+<input type="checkbox" name="anser2" value="germany">독일어
+<input type="checkbox" name="anser2" value="china">중국어
+<input type="checkbox" name="anser2" value="france">프랑스어
+<br><br>
+【질문3】
+영어 수업에 대한 의견이 있으시면 기입해 주십시오<br>
+<textarea style="width: 30%;" rows="10" cols="10" name="anser3"></textarea>
+<br><br>
+【질문4】
+당신의 연령을 선택해 주십시오
+<select name="anser4">
+	<option value="10" selected="selected">10대</option>
+	<option value="20">20대</option>
+	<option value="30">30대</option>
+	<option value="40">40대</option>
+	<option value="50">50대</option>
+</select>
+<br><br>
+<input type="submit" value="전달"> 
+</form>
+
+
+
+
+</body>
+</html>

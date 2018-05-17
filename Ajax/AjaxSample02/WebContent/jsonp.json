@@ -1,0 +1,12 @@
+android(
+[
+	{
+		"name": "JSON",
+		"message": "You got an AJAX response"
+	},
+	{
+		"name": "JSONP",
+		"message": "via JSONP from another site!"
+	}
+]
+);

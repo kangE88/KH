@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<!-- onclick, onload, onchange -->
+<body onload="checkCookies()">
+
+<!-- onload -->
+<p id="demo"></p>
+
+<script type="text/javascript">
+function checkCookies() {
+	var text = "onload 실행";
+	document.getElementById("demo").innerHTML = text;
+}
+</script>
+
+<!-- onblur : 포커스가 이동했을 때 처리 -->
+<!--
+<form action="#">
+나이:<input type="text" onblur="isRegNum(this)" size="3" maxlength="3">
+	숫자가 아닌 문자를 입력하면, 포커스를 잃을 때 경고가 표시됩니다.
+</form>
+ 
+<script type="text/javascript">
+function isRegNum( obj ) {
+	var str = obj.value;
+	//숫자가 아닌 문자열이 포함된 경우
+	if(str.match(/[^0-9]/g)){
+		alert("문자열이 포함되어 있습니다.");
+		obj.value = "";
+		return false;
+	}
+}
+</script>
+ -->
+
+<!-- onchange -->
+
+<form>
+	우편번호입력란
+	T:
+	<input type="text" size="5" maxlength="3" onchange="isPostNum(this)">
+	-
+	<input type="text" size="4" maxlength="3" onchange="isPostNum(this)">
+	<br>
+</form>
+
+<script type="text/javascript">
+function isPostNum(obj) {
+	var str = obj.value;
+	if(str.match(/[^0-9]/g)){
+		alert(str.match(/[^0-9]/g) + "\n\n 숫자가 아닌 문자가 포함되어 있습니다.");
+		obj.value = "";
+		return false;
+	}
+	
+}
+</script>
+
+<!-- onkeydown -->
+
+<form>
+	<p>입력:<input type="text" onkeydown="fCopy(this.form)" onkeyup="fCopy(this.form)" name="txt" size="40">
+	</p>
+	<p>확인:<input type="text" readonly="readonly" name="copy" 
+		size="40" style="background-color: #eee; border:1px solid #ccc;"></p>
+</form>
+
+<script type="text/javascript">
+function fCopy( frmObj ) {
+	frmObj.elements["copy"].value = frmObj.elements["txt"].value; 
+}
+</script>
+
+
+<form action="#">
+	<input type="text" name="title">
+</form>
+
+<script type="text/javascript">
+document.getElementsByName('title')[0].onkeydown = function(event) {
+	console.log('keydown - keycode : '+ event.keyCode);
+	console.log('keydown - which : '+ event.which);
+}
+</script>
+
+
+<!-- onmousedown onmouseup -->
+
+<form action="#">
+	<p>이미지 버튼을 마우스로 클릭하면, onmousedown이 버튼을 떼면, onmouseup이벤트가 발생한다.</p>
+	<p>
+		<input type="image" src="./san0.gif" onmousedown="fMouseDown(this)" onmouseup="fMouseUp(this)">
+	</p>
+	
+	<script type="text/javascript">
+	function fMouseDown(obj) {
+		obj.src = "./san1.gif";
+	}
+	function fMouseUp(obj) {
+		obj.src = "./san0.gif";
+	}
+	</script>
+	
+<!-- onmouseover onmouseout-->
+
+<form action="#">
+	<input type="image" src="./san0.gif" onmouseover="m_over(this)" onmouseout="m_out(this)" 
+	onmousedown="m_down(this)">
+</form>
+
+<script type="text/javascript">
+function m_over(obj) {
+	obj.src = "./san1.gif";
+}
+function m_out(obj) {
+	obj.src = "./san0.gif";
+}
+function m_down(obj) {
+	obj.src = "./san2.gif";
+}
+</script>
+</form>
+</body>
+</html>

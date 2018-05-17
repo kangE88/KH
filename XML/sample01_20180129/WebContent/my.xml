@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<all_movies>
+	<movie>
+		<title>신세계</title>
+		<point>90</point>
+		<review>매우 좋은</review>
+	</movie>
+
+
+	<movie>
+		<title>범죄와의 전쟁</title>
+		<point>79</point>
+		<review>보통</review>
+	</movie>
+
+</all_movies>

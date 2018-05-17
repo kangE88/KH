@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="KHBbs">
+	
+	<select id="getBbsList" parameterType="kh.com.a.model.BbsDto" resultType="kh.com.a.model.BbsDto">
+		SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, PARENT, DEL, READCOUNT FROM BBS ORDER BY REF DESC, STEP ASC
+	</select>
+	
+	<select id="getBBS" parameterType="int" resultType="kh.com.a.model.BbsDto">
+		SELECT ID, TITLE, WDATE, CONTENT, READCOUNT FROM BBS WHERE SEQ=#{seq}
+	</select>
+	
+	<update id="readCount" parameterType="int">
+		UPDATE BBS SET READCOUNT=READCOUNT+1 WHERE SEQ=#{seq}
+	</update>
+	
+	<insert id="">
+		INSERT INTO BBS(SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, PARENT, DEL, READCOUNT)
+			VALUES(SEQ_BBS.NEXTVAL, #{id}, (SELECT NVL(MAX(REF), 0)+1 FROM BBS), 0, 0, #{title}, #{content}, 
+			SYSDATE, 0, 0, 0)
+	</insert>
+</mapper>

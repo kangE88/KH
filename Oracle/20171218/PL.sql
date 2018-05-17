@@ -1,0 +1,182 @@
+/*
+    PL/SQL
+    PROCEDURAL LANGUAGE EXTENSION TO SQL
+    LOOP, WHILE, FOR  제어문들을 지원한다.
+    DECLARE 정의되며, 선택문은 선택사항이다.
+    
+    선언부(선택)
+    실행부(필수)
+    예외처리부(선택)
+    
+    DECLARE
+    --선언부
+    BEGIN
+    --실행부
+    EXCEPTION
+    --예외처리
+    END
+    
+*/
+
+-- PL_SQL 
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    V_NAME VARCHAR2(30) := 'PL/SQL';
+    
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('오라클과' || V_NAME);
+END;    
+/ -- 항상 이 문자를 마지막으로 해주어야 함 
+SET SERVEROUTPUT OFF;
+
+--반복문
+SET SERVEROUTPUT ON;
+DECLARE
+    V_CNT NUMBER := 0;
+    V_TOT NUMBER := 0;
+BEGIN
+    LOOP
+        EXIT WHEN V_CNT = 12;
+            V_CNT :=V_CNT + 3;
+            V_TOT := V_TOT + V_CNT;
+            END LOOP;
+            
+            DBMS_OUTPUT.PUT_LINE('V_CNT : ' || V_CNT);
+            DBMS_OUTPUT.PUT_LINE('V_TOT : ' || V_TOT);
+END;    
+/ -- 항상 이 문자를 마지막으로 해주어야 함 
+SET SERVEROUTPUT OFF;
+
+
+-- WHILE
+SET SERVEROUTPUT ON;
+DECLARE
+    V_CNT NUMBER := 0;
+    V_TOT NUMBER := 0;
+BEGIN
+    WHILE V_CNT < 10
+    LOOP
+        V_CNT := V_CNT +1;
+        V_TOT :=V_TOT + V_CNT;
+    END LOOP;
+    
+     DBMS_OUTPUT.PUT_LINE('V_CNT : ' || V_CNT);
+     DBMS_OUTPUT.PUT_LINE('V_TOT : ' || V_TOT);
+END;    
+/ -- 항상 이 문자를 마지막으로 해주어야 함 
+SET SERVEROUTPUT OFF;
+
+
+--FOR
+
+SET SERVEROUTPUT ON;
+DECLARE
+    V_CNT NUMBER := 0;
+    V_TOT NUMBER := 0;
+BEGIN
+    FOR V_CNT IN 1 .. 10
+    LOOP
+        V_TOT := V_TOT + V_CNT;
+    END LOOP;
+    
+     DBMS_OUTPUT.PUT_LINE('V_CNT : ' || V_CNT);
+     DBMS_OUTPUT.PUT_LINE('V_TOT : ' || V_TOT);
+
+END;    
+/ -- 항상 이 문자를 마지막으로 해주어야 함 
+SET SERVEROUTPUT OFF;
+
+
+--CASE GOTO
+SET SERVEROUTPUT ON;
+DECLARE
+    V_NAME VARCHAR2(30) := 'LEE';
+    V_CASE NUMBER := 1;
+    
+BEGIN
+    CASE WHEN MOD(V_CASE, 2) = 0 THEN GOTO TEST1;
+        WHEN MOD(V_CASE, 20) = 1 THEN GOTO TEST2;
+        ELSE GOTO ERR;
+    END CASE;
+    
+<<TEST1>>
+    DBMS_OUTPUT.PUT_LINE(V_NAME || 'IS WOMAN');
+    GOTO SUB_END;
+<<TEST2>>
+    DBMS_OUTPUT.PUT_LINE(V_NAME || 'IS MAN');
+    GOTO SUB_END;
+<<ERR>>
+    DBMS_OUTPUT.PUT_LINE('ERROR');
+    GOTO SUB_END;
+    
+<<SUB_END>>
+    DBMS_OUTPUT.PUT_LINE('EXIT SUB : ' || V_NAME);
+END;
+/
+SET SERVEROUTPUT OFF;
+
+
+-- 입력 처리
+
+ACCEPT P_NAME PROMPT 'NAME: '
+ACCEPT P_SAL PROMPT 'SALARY: '
+ACCEPT P_DEPTNO PROMPT 'DEPTNO: '
+
+
+DECLARE
+    V_NAME VARCHAR2(10) := UPPER('&P_NAME');
+    V_SAL NUMBER(7,2) :=&P_SAL;
+    V_DEPTNO NUMBER(2) :=&P_DEPTNO;
+BEGIN
+    IF V_DEPTNO = 30 THEN
+        V_SAL := V_SAL* 1.2;
+    ELSIF V_DEPTNO = 60 THEN
+        V_SAL := V_SAL* 1.1;
+    END IF;
+    
+    INSERT INTO EMPLOYEES(EMPLOYEE_ID, LAST_NAME, SALARY, HIRE_DATE, DEPARTMENT_ID, JOB_ID, EMAIL)
+    VALUES(EMPLOYEES_SEQ.NEXTVAL, V_NAME, V_SAL, SYSDATE, V_DEPTNO, 'IT_PROG',V_NAME || '@NAVER.COM');
+END;
+/
+
+SELECT * FROM EMPLOYEES;
+
+
+-- 부서번호를 입력 받아서 급여의 합을 출력하는 SCRIPT를 작성하라.
+SET SERVEROUTPUT ON
+--INPUT
+ACCEPT P_DEPTNO PROMPT 'DEPTNO: '
+
+DECLARE
+    V_SAL_TOTAL NUMBER;
+    V_DEPTNO NUMBER(2) :=&P_DEPTNO;
+BEGIN
+    SELECT SUM(salary) INTO V_SAL_TOTAL
+    FROM EMPLOYEES
+    WHERE DEPARTMENT_ID =&P_DEPTNO;
+    
+    DBMS_OUTPUT.PUT_LINE(&P_DEPTNO||'번 부서의 합 :'|| TO_CHAR(V_SAL_TOTAL, '$99,999,999'));
+END;
+/
+SET SERVEROUTPUT OFF
+
+
+-- 사원번혹가 101인 사원의 급여에 1000을 더하여 갱신하여라.
+SET SERVEROUTPUT ON
+
+DECLARE
+    V_SAL EMPLOYEES.SALARY%TYPE := 1000;  -- EMPLOYEES 테이블에 SALARY 타입을 가져옴
+BEGIN
+    UPDATE EMPLOYEES
+    SET SALARY = SALARY + V_SAL
+    WHERE EMPLOYEE_ID = 101;
+END;
+/
+SET SERVEROUTPUT OFF
+
+SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID ='101';
+
+ROLLBACK;
+    

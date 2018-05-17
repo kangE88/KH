@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+	<news>
+        <target>daum</target>
+        <link>http://daum.com</link>
+        <name>다음 사이트</name>
+    </news>     
+    
+    <news>
+        <target>google</target>
+        <link>http://google.com</link>
+        <name>구글 검색</name>
+    </news>
+</xml>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<button type="button" onclick="loadXMLDoc()">내용 변경</button>
+
+<p id="demo"></p>
+
+<script type="text/javascript">
+
+function loadXMLDoc() {
+	var xhttp = new XMLHttpRequest();	
+	xhttp.onreadystatechange = function() {		
+		if(this.readyState == 4 && this.status == 200){
+			document.getElementById("demo").innerHTML
+				= this.responseText;
+		}		
+	};
+	xhttp.open("GET", "test.txt", true);
+	xhttp.send();	
+}
+/* 
+readyState 처리상태
+0: open()메소드를 수행전
+1: 로딩중
+2: 로딩완료
+3: 서버처리중
+4: 서버처리끝 
+
+status 서버처리 결과
+200: 성공
+403: 접근거부
+404: 파일, 페이지 없음
+500: 문법의 이상
+
+ */
+
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

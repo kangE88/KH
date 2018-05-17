@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="Poll">
+  
+  <select id="getPollAlllist" resultType="kh.com.a.model.PollDto">
+  	SELECT POLLID, ID, QUESTION, SDATE, EDATE, ITEMCOUNT, POLLTOTAL, REGDATE 
+  	FROM POLL ORDER BY SDATE DESC
+  </select>
+  
+  
+  <select id="isVote" parameterType="kh.com.a.model.Voter" resultType="java.lang.Integer">
+  	SELECT COUNT(*)
+  	FROM VOTER
+  	WHERE POLLID=#{pollid} AND ID=#{id}
+  </select>
+  
+  <insert id="makePoll" parameterType="kh.com.a.model.PollDto">
+  	INSERT INTO POLL(POLLID, ID, QUESTION, SDATE, EDATE, ITEMCOUNT, POLLTOTAL, REGDATE)
+  	VALUES(POLL_SEQ.NEXTVAL, #{id}, #{question}, #{sdate}, #{edate}, #{itemcount}, 0, SYSDATE)
+  </insert>
+  
+  <insert id="makePollSub" parameterType="kh.com.a.model.PollSubDto">
+  	INSERT INTO POLLSUB(POLLSUBID, POLLID, ANSWER, ACOUNT)
+  	VALUES(POLLSUB_SEQ.NEXTVAL, (SELECT NVL(MAX(POLLID), 0) FROM POLL), #{answer}, 0)
+  </insert>
+  
+  <select id="getPoll" parameterType="kh.com.a.model.PollDto" resultType="kh.com.a.model.PollDto">
+  	SELECT POLLID, ID, QUESTION, SDATE, EDATE, ITEMCOUNT, POLLTOTAL, REGDATE 
+  	FROM POLL
+  	WHERE POLLID=#{pollid}
+  </select>
+  
+  <select id="getPollSubList" parameterType="kh.com.a.model.PollSubDto" resultType="kh.com.a.model.PollSubDto">
+ 	SELECT POLLSUBID, POLLID, ANSWER, ACOUNT 
+ 	FROM POLLSUB
+ 	WHERE POLLID=#{pollid}	
+  </select>
+  
+  <!-- voter [투표자], poll [투표항목], pollsub[투표보기] -->
+  
+  
+  <!-- 투표자 추가 -->
+  <insert id="pollingVote" parameterType="kh.com.a.model.Voter">
+  	INSERT INTO VOTER(VOTERID, POLLID, POLLSUBID, ID, REGDATE) 
+  	VALUES(VOTER_SEQ.NEXTVAL, #{pollid}, #{pollsubid}, #{id}, SYSDATE)
+  </insert>
+  
+  <!-- 투표항목에 대한 카운트 증가 -->
+  <update id="pollingPoll" parameterType="kh.com.a.model.Voter">
+  	UPDATE POLL 
+  	SET POLLTOTAL=POLLTOTAL+1
+  	WHERE POLLID=#{pollid}
+  </update>
+  
+  
+  <!-- 선택한 보기를 증가 -->
+  <update id="pollingSub" parameterType="kh.com.a.model.Voter">
+  	UPDATE POLLSUB 
+  	SET ACOUNT=ACOUNT+1
+  	WHERE POLLID=#{pollid} AND POLLSUBID=#{pollsubid}
+  </update>
+  
+  </mapper>

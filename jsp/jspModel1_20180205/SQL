@@ -1,0 +1,12 @@
+insert into CUSTUSER
+values('aaa','홍길동', '서울시')
+
+
+create table custuser(
+    id varchar2(50) primary key,
+    name varchar2(50),
+    address varchar2(50)
+);
+
+insert into custuser values('id1', 'name1', 'address1');
+insert into custuser values('id2', 'name2', 'addrinsert into custuser values('id3', 'name3', 'address3');ess2');

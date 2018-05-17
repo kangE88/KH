@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="mybatis.memberMapper">
+  	<!-- 추가 -->
+  	<insert id="add" parameterType="dto.MemberVo">
+  		INSERT INTO MEMBERVO(ID, PWD, EMAIL, PHONE, REGDATE)
+  			VALUES(#{id}, #{pwd}, #{email}, #{phone}, SYSDATE)
+  	</insert>
+  
+  <!-- 삭제 -->
+  <delete id="remove" parameterType="java.lang.String">
+  	DELETE FROM MEMBERVO
+  	WHERE ID=#{id}
+  </delete>
+  
+  <!-- 검색 -->
+  <select id="find" parameterType="java.lang.String"
+  	resultType="dto.MemberVo">
+  	SELECT ID, PWD, EMAIL, PHONE, REGDATE
+  	FROM MEMBERVO
+  	WHERE ID=#{id}
+  </select>
+  
+  <select id="getlist" resultType="dto.MemberVo">
+  	SELECT ID, PWD, EMAIL, PHOME, REGDATE
+  	FROM MEMBERVO  
+  </select>
+  
+  <select id="getInfo" parameterType="java.lang.String"
+  	resultType="hashmap">
+  	SELECT * FROM MEMBERVO
+  	WHERE ID=#{id}
+  </select>
+  
+  </mapper>
